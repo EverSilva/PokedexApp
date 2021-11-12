@@ -14,7 +14,9 @@ const App = () => {
     <SidebarProvider>
       <View style={{flexGrow: 1}}>
         <Sidebar/>
-        <Container toggle={true}>
+        <Container controls={{
+          toggleable: true
+        }}>
           
         </Container>
       </View>

@@ -1,30 +1,16 @@
 import React, { useContext, useRef, useState } from 'react'
 import { View, Text, Animated, Pressable, StyleSheet } from 'react-native'
 import { SidebarContext } from '../Sidebar/context'
+import { ContainerContext } from './context'
 import { ToggleButton } from './ToggleButton'
 
-export const Container = ({children}) => {
+export const Container = ({children, controls}) => {
     const { isOpened, setIsOpened } = useContext(SidebarContext)
+    const { containerScale, containerOffset } = useContext(ContainerContext)
+    
 
-    const containerScale = useRef(new Animated.Value(1)).current
-    const containerOffset = useRef(new Animated.Value(0)).current
-
-    const toggleSidebar = () => {
-        Animated
-            .timing(containerScale, {
-                toValue: isOpened ? 1 : .95,
-                duration: 300,
-                useNativeDriver: true
-            })
-            .start()
-        Animated
-            .timing(containerOffset, {
-                toValue: isOpened ? 0 : 250,
-                duration: 300,
-                useNativeDriver: true
-            })
-            .start()
-    }
+    // const containerScale = useRef(new Animated.Value(1)).current
+    //const containerOffset = useRef(new Animated.Value(0)).current
 
     return (
         <Animated.View style={{
@@ -44,12 +30,11 @@ export const Container = ({children}) => {
             ]
             }}>
 
-            <Pressable 
-                style={{backgroundColor: 'red'}} 
-                onPress={() => toggleSidebar()}>
-                <Text>Toggle</Text>
-            </Pressable>
-            <ToggleButton/>
+            {
+                controls.toggleable ?
+                <ToggleButton/> :
+                <></>
+            }
             {children}
         </Animated.View>
     )
